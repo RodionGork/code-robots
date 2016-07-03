@@ -4,7 +4,7 @@
     <style type="text/css" media="screen">
         #editor { 
             width: 100%;
-            height: 100%;
+            height: 95%;
             border: 1px solid #aaa;
         }
         #main-pane {
@@ -29,19 +29,15 @@
     <script src="./libs/jqui/jquery-ui.min.js"></script>
     <script src="./libs/brython.js"></script>
     <script src="./libs/ace/ace.js" type="text/javascript"></script>
-    <script>
-        window.onload = function() {
-            brEditor = ace.edit('editor');
-            brEditor.getSession().setMode("ace/mode/javascript");
-        };
-    </script>
 </head>
-<body onload="brython()">
+<body>
     
     <div id="main-pane">
         <div id="code-pane">
+            <div id="controls">
+                <button id="mybutton">Run</button>
+            </div>
             <div id="editor"></div>
-            <button id="mybutton">click !</button>
         </div>
         <div id="game-pane">
             Game Pane!
@@ -58,6 +54,9 @@
                 gamePane.width(mainPane.width() - codePane.width() - 5);
             });
             codePane.resize();
+            brEditor = ace.edit('editor');
+            brEditor.getSession().setMode("ace/mode/javascript");
+            brython();
         });
     </script>
     
