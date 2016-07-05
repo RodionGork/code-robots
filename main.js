@@ -1,16 +1,23 @@
 $(function() {
     
+    var level = determineLevel();
+    
     window.operations = [];
     twoPanelsSetup();
     brEditor = ace.edit('editor');
     brEditor.getSession().setMode("ace/mode/python");
-    brEditor.setValue(loadFile('data/code001.json'));
+    brEditor.setValue(loadFile('data/code' + level + '.py'));
     brython();
-    game = new Game(loadFile('data/level001.json'));
+    game = new Game(loadFile('data/level' + level + '.json'));
     
     $('#reset-button').click(function() {
         window.operations = [];
         game.reset();
+    });
+    
+    $('#level-select').change(function() {
+        var href = location.href.replace(/^(.*)\?.*/, '$1');
+        location.href = href + '?level=' + $(this).val();
     });
     
     function loadFile(url) {
@@ -21,7 +28,18 @@ $(function() {
             return data;
         }
     }
-
+    
+    function determineLevel() {
+        var m = location.href.match(/level\=(\d+)/);
+        if (m == null || m.length < 1) {
+            return '001';
+        }
+        var v = parseInt(m[1]);
+        $('#level-select').val(v);
+        var s = '00' + parseInt(m[1]);
+        return s.substring(s.length - 3);
+    }
+    
     function twoPanelsSetup() {
         var codePane = $('#code-pane');
         var gamePane = $('#game-pane');
