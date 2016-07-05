@@ -23,11 +23,12 @@ def turnRight():
 #------------------------------------------
 
 def runner(e):
+    window.game.reset()
     ns = {'__name__':'__main__', 'alert':alert,
         'forward':forward, 'left':turnLeft, 'right':turnRight}
     exec(init_code + window.brEditor.getValue(), ns)
 
-document['mybutton'].bind('click',runner)
+document['run-button'].bind('click',runner)
 
 _sys.stdout.write = _write
 _sys.stderr.write = _write_err

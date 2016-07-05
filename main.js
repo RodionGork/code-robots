@@ -3,13 +3,25 @@ $(function() {
     window.operations = [];
     twoPanelsSetup();
     brEditor = ace.edit('editor');
-    brEditor.getSession().setMode("ace/mode/javascript");
-    brEditor.setValue("print('start')\nforward()\nright()\n"
-            + "for i in range(3):\n    forward()\nleft()\nforward()\nleft()\n"
-            + "forward()\nforward()\nprint('done')\n");
+    brEditor.getSession().setMode("ace/mode/python");
+    brEditor.setValue(loadFile('data/code001.json'));
     brython();
-    game = new Game();
+    game = new Game(loadFile('data/level001.json'));
     
+    $('#reset-button').click(function() {
+        window.operations = [];
+        game.reset();
+    });
+    
+    function loadFile(url) {
+        var data = $.ajax(url, {async:false}).responseText;
+        try {
+            return JSON.parse(data);
+        } catch (e) {
+            return data;
+        }
+    }
+
     function twoPanelsSetup() {
         var codePane = $('#code-pane');
         var gamePane = $('#game-pane');

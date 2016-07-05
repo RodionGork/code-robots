@@ -1,7 +1,6 @@
-function Game() {
+function Game(data) {
     
     var self = this;
-    var reinitFlag = true;
     var objGroup = null;
     var objects = null;
     var sz = 40;
@@ -10,13 +9,13 @@ function Game() {
     var stepTime = 500;
     var rotation = [[0, 1], [-1, 0], [0, -1], [1, 0]];
     var phaserGame;
-    var busy = null;
+    var busy = 'init';
     
-    phaserGame = gameSetup();
+    phaserGame = gameSetup(data);
     
     this.reset = function() {
         destroy();
-        reinitFlag = true;
+        busy = 'init';
     }
     
     this.isReady = function() {
@@ -60,8 +59,9 @@ function Game() {
         busy = 'turn';
     }
     
-    function gameSetup() {
-        return new Phaser.Game(width * sz, height * sz, Phaser.AUTO, 'gamescreen',
+    function gameSetup(data) {
+        return new Phaser.Game(data.width * sz, data.height * sz,
+                Phaser.AUTO, 'gamescreen',
                 { preload: gamePreload, update: gameUpdate });
     }
     
@@ -74,8 +74,8 @@ function Game() {
         phaserGame.stage.backgroundColor = '#ccc';
         objGroup = phaserGame.add.group();
         objects = [];
-        placeStars([{x:1, y:5}]);
-        placeTank({x:1, y:1});
+        placeStars(data.stars);
+        placeTank(data.tank);
     }
     
     function destroy() {
@@ -137,9 +137,9 @@ function Game() {
     }
     
     function gameUpdate() {
-        if (reinitFlag) {
+        if (busy == 'init') {
             setup();
-            reinitFlag = false;
+            busy = null;
         }
         if (busy == 'move') {
             processMove();
