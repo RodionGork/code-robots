@@ -4,6 +4,8 @@
 #then build the program which will allow
 #to reach the star
 
+#do not forget to add 'pick()' command also
+
 forward()
 left()
 forward()

@@ -31,6 +31,7 @@ def runner(e):
     ns = {'__name__':'__main__', 'alert':alert,
         'forward':forward, 'left':turnLeft, 'right':turnRight, 'pick':pick}
     exec(init_code + window.brEditor.getValue(), ns)
+    window.operations.append(['end'])
 
 document['run-button'].bind('click',runner)
 
