@@ -4,8 +4,8 @@ function Game(data) {
     var objGroup = null;
     var objects = null;
     var sz = 40;
-    var width = 13;
-    var height = 10;
+    var width = data.width;
+    var height = data.height;
     var stepTime = 500;
     var rotation = [[0, 1], [-1, 0], [0, -1], [1, 0]];
     var phaserGame;
@@ -22,24 +22,47 @@ function Game(data) {
         return busy === null;
     }
     
+    this.isSuccess = function() {
+        var stars = objects['star'];
+        for (var i = 0; i < stars.length; i++) {
+            if (stars[i].alive) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     this.operation = function(op) {
         switch (op[0]) {
             case 'fwd': self.forward(); break;
             case 'lt': self.left(); break;
             case 'rt': self.right(); break;
+            case 'pck': self.pick(); break;
         }
     }
     
     this.forward = function() {
         var tank = getTank();
         var rot = rotation[tank.rot];
+        var nextX = tank.logicX + rot[0];
+        var nextY = tank.logicY + rot[1];
+        checkPositionValid(nextX, nextY);
         tank.move = {x0:tank.x, y0:tank.y, t0:phaserGame.time.now};
-        tank.logicX += rot[0];
-        tank.logicY += rot[1];
+        tank.logicX = nextX;
+        tank.logicY = nextY;
         tank.move.t1 = tank.move.t0 + stepTime;
         tank.move.x1 = mkX(tank.logicX);
         tank.move.y1 = mkY(tank.logicY);
         busy = 'move';
+    }
+    
+    function checkPositionValid(x, y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            throw new Error('Tank hit the border of the Field!');
+        }
+        if (findObject(x, y, 'wall')) {
+            throw new Error('Tank collided with the brick wall!');
+        }
     }
     
     this.left = function() {
@@ -48,6 +71,15 @@ function Game(data) {
     
     this.right = function() {
         turn(-1);
+    }
+    
+    this.pick = function() {
+        var tank = getTank();
+        var star = findObject(tank.logicX, tank.logicY, 'star');
+        if (star === null || !star.alive) {
+            throw new Error('There is no star to pick in this point!');
+        }
+        star.kill();
     }
     
     function turn(phi) {
@@ -67,6 +99,7 @@ function Game(data) {
     
     function gamePreload() {
         phaserGame.load.image('star', 'star.png');
+        phaserGame.load.image('wall', 'wall.png');
         phaserGame.load.spritesheet('tank', 'tank.png', 40, 40);
     }
     
@@ -75,6 +108,7 @@ function Game(data) {
         objGroup = phaserGame.add.group();
         objects = [];
         placeStars(data.stars);
+        placeWalls(data.walls);
         placeTank(data.tank);
     }
     
@@ -93,6 +127,18 @@ function Game(data) {
         objGroup.destroy();
     }
     
+    function placeWalls(data) {
+        if (typeof(data) == 'undefined') {
+            return;
+        }
+        for (var i = 0; i < data.length; i++) {
+            var wall = data[i];
+            for (var j = 0; j < wall.len; j++) {
+                addObject(wall.x + j, wall.y, 'wall');
+            }
+        }
+    }
+
     function placeStars(data) {
         for (var i = 0; i < data.length; i++) {
             var star = data[i];
@@ -109,6 +155,20 @@ function Game(data) {
     
     function getTank() {
         return objects['tank'][0];
+    }
+    
+    function findObject(x, y, kind) {
+        var objs = objects[kind];
+        if (typeof(objs) == 'undefined') {
+            return null;
+        }
+        for (var i = 0; i < objs.length; i++) {
+            var o = objs[i];
+            if (o.logicX == x && o.logicY == y) {
+                return o;
+            }
+        }
+        return null;
     }
     
     function addObject(x, y, kind) {
@@ -129,7 +189,7 @@ function Game(data) {
     }
     
     function mkY(y) {
-        return (height - y - 1) * sz + sz / 2;
+        return (height - y) * sz + sz / 2;
     }
     
     function scale(image, w, h) {

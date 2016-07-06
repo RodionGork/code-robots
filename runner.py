@@ -20,12 +20,16 @@ def turnLeft():
 
 def turnRight():
     window.operations.append(['rt'])
+
+def pick():
+    window.operations.append(['pck'])
+
 #------------------------------------------
 
 def runner(e):
     window.game.reset()
     ns = {'__name__':'__main__', 'alert':alert,
-        'forward':forward, 'left':turnLeft, 'right':turnRight}
+        'forward':forward, 'left':turnLeft, 'right':turnRight, 'pick':pick}
     exec(init_code + window.brEditor.getValue(), ns)
 
 document['run-button'].bind('click',runner)

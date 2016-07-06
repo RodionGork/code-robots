@@ -60,7 +60,12 @@ $(function() {
             var pre = $('#output-pre');
             pre.text(pre.text() + op[1]);
         } else {
-            game.operation(op);
+            try {
+                game.operation(op);
+            } catch (e) {
+                alert('Error:\n' + e.message);
+                operations = [];
+            }
         }
     }
     
