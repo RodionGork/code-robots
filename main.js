@@ -6,9 +6,11 @@ $(function() {
     twoPanelsSetup();
     brEditor = ace.edit('editor');
     brEditor.getSession().setMode("ace/mode/python");
+    window.initCode = loadFile('game01.py');
+    window.gameData = JSON.parse(loadFile('data/level' + level + '.json'));
     brEditor.setValue(loadFile('data/code' + level + '.py'));
     brython();
-    game = new Game(loadFile('data/level' + level + '.json'));
+    game = new Game(window.gameData);
     
     $('#reset-button').click(function() {
         window.operations = [];
@@ -21,12 +23,7 @@ $(function() {
     });
     
     function loadFile(url) {
-        var data = $.ajax(url, {async:false}).responseText;
-        try {
-            return JSON.parse(data);
-        } catch (e) {
-            return data;
-        }
+        return $.ajax(url, {async:false}).responseText;
     }
     
     function determineLevel() {
