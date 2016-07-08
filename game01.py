@@ -1,3 +1,8 @@
+class Tank:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 rot = [[0, 1], [-1, 0], [0, -1], [1, 0]]
 operations = []
 data = []
@@ -67,7 +72,7 @@ def init_game_data():
         field.append([''] * data.width)
     place_stars(field, data.stars)
     place_walls(field, data.walls)
-    tank = data.tank
+    tank = Tank(data.tank.x, data.tank.y)
 
 init_game_data()
 

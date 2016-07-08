@@ -189,7 +189,7 @@ function Game(data) {
     }
     
     function mkY(y) {
-        return (height - y) * sz + sz / 2;
+        return (height - y) * sz - sz / 2;
     }
     
     function scale(image, w, h) {
