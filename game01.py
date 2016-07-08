@@ -14,7 +14,7 @@ result = 0
 
 def failure(msg):
     global result
-    add_op(['fail', msg])
+    add_op(['end', -1, msg])
     result = -1
 
 def add_op(o):
@@ -50,6 +50,8 @@ def right():
 
 def pick():
     global stars
+    if result != 0:
+        return
     if field[tank.y][tank.x] != 'star':
         failure('There is no star to pick up!')
     else:
@@ -82,6 +84,7 @@ if result == 0:
     if stars < len(data.stars):
         failure('Not all stars were picked up!')
     else:
+        add_op(['end', 1])
         result = 1
 
 done(operations, result)

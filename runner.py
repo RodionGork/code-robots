@@ -19,7 +19,6 @@ def runner(e):
     user_code = window.brEditor.getValue()
     code = window.initCode.replace('#user_code#', user_code)
     exec(code, ns)
-    ops.append(['end'])
     window.operations = []
     window.operations.extend(ops)
 

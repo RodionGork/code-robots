@@ -13,7 +13,6 @@ $(function() {
     game = new Game(window.gameData);
     
     $('#reset-button').click(function() {
-        window.operations = [];
         game.reset();
     });
     
@@ -47,31 +46,6 @@ $(function() {
         });
         codePane.resize();
     }
-    
-    function doOperations() {
-        if (operations.length == 0 || !game.isReady()) {
-            return;
-        }
-        op = operations.shift();
-        if (op[0] == 'prn') {
-            var pre = $('#output-pre');
-            pre.text(pre.text() + op[1]);
-        } else if (op[0] == 'end') {
-            alert(game.isSuccess()
-                ? 'Well done!\nYou completed this level!'
-                : 'Task not completed:\nNot all stars are picked :(');
-            operations = [];
-        } else {
-            try {
-                game.operation(op);
-            } catch (e) {
-                alert('Error:\n' + e.message);
-                operations = [];
-            }
-        }
-    }
-    
-    setInterval(doOperations, 50);
     
 });
 

@@ -1,3 +1,31 @@
+$(function() {
+    function doOperations() {
+        if (operations.length == 0 || !game.isReady()) {
+            return;
+        }
+        op = operations.shift();
+        opcode = op[0];
+        if (opcode == 'prn') {
+            var pre = $('#output-pre');
+            pre.text(pre.text() + op[1]);
+        } else if (opcode == 'end') {
+            alert(op[1] == 1
+                ? 'Well done!\nYou\'ve completed this level!'
+                : 'Task not completed:\n' + op[2]);
+            operations = [];
+        } else {
+            try {
+                game.operation(op);
+            } catch (e) {
+                alert('Error:\n' + e.message);
+                operations = [];
+            }
+        }
+    }
+    
+    setInterval(doOperations, 50);
+});
+
 function Game(data) {
     
     var self = this;
@@ -14,6 +42,7 @@ function Game(data) {
     phaserGame = gameSetup(data);
     
     this.reset = function() {
+        window.operations = [];
         destroy();
         busy = 'init';
     }
@@ -46,7 +75,6 @@ function Game(data) {
         var rot = rotation[tank.rot];
         var nextX = tank.logicX + rot[0];
         var nextY = tank.logicY + rot[1];
-        checkPositionValid(nextX, nextY);
         tank.move = {x0:tank.x, y0:tank.y, t0:phaserGame.time.now};
         tank.logicX = nextX;
         tank.logicY = nextY;
@@ -54,15 +82,6 @@ function Game(data) {
         tank.move.x1 = mkX(tank.logicX);
         tank.move.y1 = mkY(tank.logicY);
         busy = 'move';
-    }
-    
-    function checkPositionValid(x, y) {
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            throw new Error('Tank hit the border of the Field!');
-        }
-        if (findObject(x, y, 'wall')) {
-            throw new Error('Tank collided with the brick wall!');
-        }
     }
     
     this.left = function() {
@@ -76,9 +95,6 @@ function Game(data) {
     this.pick = function() {
         var tank = getTank();
         var star = findObject(tank.logicX, tank.logicY, 'star');
-        if (star === null || !star.alive) {
-            throw new Error('There is no star to pick in this point!');
-        }
         star.kill();
     }
     

@@ -16,10 +16,9 @@ def game_data():
         return Obj(d)
     return json.loads(read_file(sys.argv[3]), object_hook = object_decoder)
 
-def done(operations, res):
+def done(operations):
     ops.clear()
     ops.extend(operations)
-    ops.append(['end', res])
 
 def runner():
     ns = {'__name__':'__main__', 'done':done, 'game_data':game_data}
