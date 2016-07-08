@@ -16,9 +16,10 @@ def game_data():
         return Obj(d)
     return json.loads(read_file(sys.argv[3]), object_hook = object_decoder)
 
-def done(operations):
+def done(operations, res):
     ops.clear()
     ops.extend(operations)
+    ops.append(['end', res])
 
 def runner():
     ns = {'__name__':'__main__', 'done':done, 'game_data':game_data}
@@ -26,7 +27,6 @@ def runner():
     user_code = read_file(sys.argv[2])
     code = init_code.replace('#user_code#', user_code)
     exec(code, ns)
-    ops.append(['end'])
     print(ops)
 
 runner()

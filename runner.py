@@ -6,7 +6,7 @@ ops = []
 def game_data():
     return window.gameData
 
-def done(operations):
+def done(operations, result):
     ops.clear()
     ops.extend(operations)
 
