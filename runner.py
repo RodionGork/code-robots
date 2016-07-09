@@ -10,12 +10,15 @@ def done(operations, result):
     ops.clear()
     ops.extend(operations)
 
+def _input():
+    return ''
+
 def _write_err(x):
     alert(x)
 
 def runner(e):
     window.game.reset()
-    ns = {'__name__':'__main__', 'done':done, 'game_data':game_data}
+    ns = {'__name__':'__main__', 'done':done, 'game_data':game_data, 'input':_input}
     user_code = window.brEditor.getValue()
     code = window.initCode.replace('#user_code#', user_code)
     exec(code, ns)

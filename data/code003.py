@@ -1,19 +1,16 @@
-#we can define our own functions
-#for example to enclose group of operations
-#which needs to be repeated several times
+#another important command is "pick()"
 
-#see how we define function which
-#combines four movements
-#and then use it twice
+#most of levels require to pick the stars
+#placed at the battle field - so we need
+#to drive the tank over them and tell "pick()"
 
-#now define your own function instead
-#to travel over all three stars
+#click "Run" to test it
 
-def twoStepsAndTurn():
-    forward()
-    forward()
-    right()
-    right()
+forward()
+pick()
 
-twoStepsAndTurn()
-twoStepsAndTurn()
+#we get error if there is no star
+#or if not all stars are collected at the end
+
+#real challenges start from next level
+#switch to it when you are ready!

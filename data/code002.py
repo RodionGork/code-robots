@@ -1,13 +1,18 @@
-#our tank can move not only forward
-#try to run this code to learn
-#the use of 'left()' and 'right()' commands
-#then build the program which will allow
-#to reach the star
+#tank not only can move forward
+#it also can rotate
+#with "left()" and "right()" commands
 
-#do not forget to add 'pick()' command also
+#here we ask it to move a bit forward,
+#to turn left and move a step more
 
 forward()
 left()
 forward()
-right()
-forward()
+
+#try to add more commands to move it further
+#and also to rotate it right (perhaps few times)
+#note the two rules:
+# - place each command on separate line
+# - start each command at beginning of line
+
+#switch to next level when you are ready!

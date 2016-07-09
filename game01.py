@@ -76,7 +76,12 @@ def init_game_data():
     place_walls(field, data.walls)
     tank = Tank(data.tank.x, data.tank.y)
 
-init_game_data()
+def init():
+    import _sys
+    init_game_data()
+    _sys.stdout.write = _write
+
+init()
 
 #user_code#
 

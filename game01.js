@@ -108,15 +108,20 @@ function Game(data) {
     }
     
     function gameSetup(data) {
-        return new Phaser.Game(data.width * sz, data.height * sz,
+        var game = new Phaser.Game(data.width * sz, data.height * sz,
                 Phaser.AUTO, 'gamescreen',
                 { preload: gamePreload, update: gameUpdate });
+        return game;
     }
     
     function gamePreload() {
         phaserGame.load.image('star', 'star.png');
         phaserGame.load.image('wall', 'wall.png');
         phaserGame.load.spritesheet('tank', 'tank.png', 40, 40);
+        phaserGame.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        phaserGame.scale.maxWidth = width * sz;
+        phaserGame.scale.maxHeight = height * sz;
+        phaserGame.scale.refresh();
     }
     
     function setup() {

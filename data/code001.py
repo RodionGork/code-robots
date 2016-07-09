@@ -1,9 +1,13 @@
-#try to run this code by pressing 'Run' button
+#we control the tank with the Python program
+#this area contains the program
+#but lines starting with '#' are ignored
 
-#then add more 'forward()' commands
-#so that tank can reach the star
-#before executing 'pick()' command
+#we put commands in separate lines
+#the first command to try is "forward()"
+#here is the program of a single command
+
+#press the "Run" button to see how it works
 
 forward()
-forward()
-pick()
+
+#switch to next level when you are ready!

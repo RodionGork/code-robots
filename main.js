@@ -3,12 +3,13 @@ $(function() {
     var level = determineLevel();
     
     window.operations = [];
-    twoPanelsSetup();
     brEditor = ace.edit('editor');
     brEditor.getSession().setMode("ace/mode/python");
     window.initCode = loadFile('game01.py');
     window.gameData = JSON.parse(loadFile('data/level' + level + '.json'));
     brEditor.setValue(loadFile('data/code' + level + '.py'));
+    brEditor.moveCursorTo(0, 0, false);
+    brEditor.selection.clearSelection();
     brython();
     game = new Game(window.gameData);
     
@@ -34,17 +35,6 @@ $(function() {
         $('#level-select').val(v);
         var s = '00' + parseInt(m[1]);
         return s.substring(s.length - 3);
-    }
-    
-    function twoPanelsSetup() {
-        var codePane = $('#code-pane');
-        var gamePane = $('#game-pane');
-        var mainPane = $('#main-pane');
-        codePane.resizable();
-        codePane.resize(function() {
-            gamePane.width(mainPane.width() - codePane.width() - 5);
-        });
-        codePane.resize();
     }
     
 });
