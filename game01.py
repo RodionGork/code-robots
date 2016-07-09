@@ -11,6 +11,7 @@ stars = 0
 tank = None
 az = 0
 result = 0
+time_start = 0
 
 def failure(msg):
     global result
@@ -27,7 +28,12 @@ def _write(x):
 def _write_err(x):
     add_op(['err'], x)
 
+def check_time():
+    if _time() - time_start > 1000:
+        raise Exception('timeout')
+
 def forward():
+    check_time()
     dx, dy = rot[az]
     tank.x += dx
     tank.y += dy
@@ -39,6 +45,7 @@ def forward():
         add_op(['fwd'])
 
 def look_ahead():
+    check_time()
     dx, dy = rot[az]
     x = tank.x + dx
     y = tank.y + dy
@@ -48,20 +55,24 @@ def look_ahead():
         return field[y][x]
 
 def look_below():
+    check_time()
     return field[tank.y][tank.x]
     
 def left():
     global az
+    check_time()
     az = (az + 1) % len(rot)
     add_op(['lt'])
 
 def right():
     global az
+    check_time()
     az = (az + 3) % len(rot)
     add_op(['rt'])
 
 def pick():
     global stars
+    check_time()
     if result != 0:
         return
     if field[tank.y][tank.x] != 'star':
@@ -90,8 +101,10 @@ def init_game_data():
 
 def init():
     import _sys
+    global time_start
     init_game_data()
     _sys.stdout.write = _write
+    time_start = _time()
 
 init()
 
