@@ -38,6 +38,18 @@ def forward():
     else:
         add_op(['fwd'])
 
+def look_ahead():
+    dx, dy = rot[az]
+    x = tank.x + dx
+    y = tank.y + dy
+    if x < 0 or x >= data.width or y < 0 or y >= data.height:
+        return 'out'
+    else:
+        return field[y][x]
+
+def look_below():
+    return field[tank.y][tank.x]
+    
 def left():
     global az
     az = (az + 1) % len(rot)
