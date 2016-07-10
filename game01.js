@@ -36,6 +36,8 @@ function Game(data) {
     var height = data.height;
     var stepTime = 500;
     var rotation = [[0, 1], [-1, 0], [0, -1], [1, 0]];
+    var lcg0 = Math.floor(Math.random() * 1000000);
+    var lcg = lcg0;
     var phaserGame;
     var busy = 'init';
     
@@ -44,6 +46,7 @@ function Game(data) {
     this.reset = function() {
         window.operations = [];
         destroy();
+        lcg = lcg0;
         busy = 'init';
     }
     
@@ -114,10 +117,16 @@ function Game(data) {
         return game;
     }
     
+    function rnd() {
+        lcg = (250001 * lcg + 13) % 65536;
+        return lcg;
+    }
+    
     function gamePreload() {
         phaserGame.load.image('star', 'data/star.png');
         phaserGame.load.image('wall', 'data/wall.png');
         phaserGame.load.spritesheet('tank', 'data/tank.png', 40, 40);
+        phaserGame.load.spritesheet('grass', 'data/grass.png', 20, 20);
         phaserGame.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         phaserGame.scale.maxWidth = width * sz;
         phaserGame.scale.maxHeight = height * sz;
@@ -128,6 +137,7 @@ function Game(data) {
         phaserGame.stage.backgroundColor = '#3c6';
         objGroup = phaserGame.add.group();
         objects = [];
+        placeGrass();
         placeStars(data.stars);
         placeWalls(data.walls);
         placeTank(data.tank);
@@ -146,6 +156,18 @@ function Game(data) {
         }
         objects = [];
         objGroup.destroy();
+    }
+    
+    function placeGrass() {
+        for (var j = 0; j < height; j++) {
+            for (var i = 0; i < width; i++) {
+                var g = rnd() % 7;
+                if (g >= 2) {
+                    continue;
+                }
+                addObject(i, j, 'grass').frame = g;
+            }
+        }
     }
     
     function placeWalls(data) {
