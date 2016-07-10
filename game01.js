@@ -115,9 +115,9 @@ function Game(data) {
     }
     
     function gamePreload() {
-        phaserGame.load.image('star', 'star.png');
-        phaserGame.load.image('wall', 'wall.png');
-        phaserGame.load.spritesheet('tank', 'tank.png', 40, 40);
+        phaserGame.load.image('star', 'data/star.png');
+        phaserGame.load.image('wall', 'data/wall.png');
+        phaserGame.load.spritesheet('tank', 'data/tank.png', 40, 40);
         phaserGame.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         phaserGame.scale.maxWidth = width * sz;
         phaserGame.scale.maxHeight = height * sz;
@@ -125,7 +125,7 @@ function Game(data) {
     }
     
     function setup() {
-        phaserGame.stage.backgroundColor = '#ccc';
+        phaserGame.stage.backgroundColor = '#3c6';
         objGroup = phaserGame.add.group();
         objects = [];
         placeStars(data.stars);
@@ -232,13 +232,16 @@ function Game(data) {
     function processMove() {
         var tank = getTank();
         var move = tank.move;
-        var alpha = (phaserGame.time.now - move.t0) / (move.t1 - move.t0);
+        var now = phaserGame.time.now;
+        var alpha = (now - move.t0) / (move.t1 - move.t0);
         if (alpha < 1) {
             tank.x = Math.round(alpha * (move.x1 - move.x0) + move.x0);
             tank.y = Math.round(alpha * (move.y1 - move.y0) + move.y0);
+            animateTank(now);
         } else {
             tank.x = move.x1;
             tank.y = move.y1;
+            animateTank(0);
             busy = null;
         }
     }
@@ -246,15 +249,23 @@ function Game(data) {
     function processTurn() {
         var tank = getTank();
         var move = tank.move;
-        var alpha = (phaserGame.time.now - move.t0) / (move.t1 - move.t0);
+        var now = phaserGame.time.now;
+        var alpha = (now - move.t0) / (move.t1 - move.t0);
         if (alpha < 1) {
             tank.frame = 0;
             tank.rotation = -(alpha * (move.d1 - move.d0) + move.d0);
+            animateTank(now);
         } else {
             tank.frame = tank.rot;
             tank.rotation = 0;
+            animateTank(0);
             busy = null;
         }
+    }
+    
+    function animateTank(t) {
+        var tank = getTank();
+        tank.frame = (tank.frame & 0x3) + (Math.floor(t / 150) % 4) * 4;
     }
     
 }
