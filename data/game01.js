@@ -127,7 +127,7 @@ function Game(data) {
     }
     
     function gamePreload() {
-        phaserGame.load.image('star', 'data/star.png');
+        phaserGame.load.spritesheet('star', 'data/star.png', 40, 40);
         phaserGame.load.image('wall', 'data/wall.png');
         phaserGame.load.spritesheet('tank', 'data/tank.png', 40, 40);
         phaserGame.load.spritesheet('grass', 'data/grass.png', 20, 20);
@@ -253,6 +253,7 @@ function Game(data) {
         } else if (busy == 'turn') {
             processTurn();
         }
+        animateStars();
     }
     
     function processMove() {
@@ -294,4 +295,13 @@ function Game(data) {
         tank.frame = (tank.frame & 0x3) + (Math.floor(t / 150) % 4) * 4;
     }
     
+    function animateStars() {
+        var stars = objects['star'];
+        var t = Math.floor(phaserGame.time.now / 100);
+        for (var i = 0; i < stars.length; i++) {
+            stars[i].frame = (i + t) % 4;
+        }
+    }
+    
 }
+
