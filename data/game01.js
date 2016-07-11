@@ -297,6 +297,9 @@ function Game(data) {
     
     function animateStars() {
         var stars = objects['star'];
+        if (typeof(stars) == 'undefined') {
+            return;
+        }
         var t = Math.floor(phaserGame.time.now / 100);
         for (var i = 0; i < stars.length; i++) {
             stars[i].frame = (i + t) % 4;
