@@ -7,6 +7,7 @@ $(function() {
     brEditor.getSession().setMode("ace/mode/python");
     window.initCode = loadFile('data/game01.py');
     window.gameData = JSON.parse(loadFile('data/level' + level + '.json'));
+    $('h1').text($('h1').text() + ' - ' + window.gameData.title);
     brEditor.setValue(loadFile('data/code' + level + '.py'));
     brEditor.moveCursorTo(0, 0, false);
     brEditor.selection.clearSelection();

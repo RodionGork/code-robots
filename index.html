@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="./libs/bs/bootstrap.min.css"/>
     <link rel="stylesheet" href="./libs/bs/bootstrap-theme.min.css"/>
     <style type="text/css" media="screen">
+        body {
+            font-size: 14px;
+        }
         #editor { 
             width: 100%;
             height: 600px;
@@ -27,6 +30,22 @@
         .spacing-before {
             margin-top: 10px;
         }
+        .navbar {
+            background-image: linear-gradient(0deg, #bbb, #fff);
+            font-size: 125%;
+        }
+        .navbar a:hover {
+            background-image: linear-gradient(0deg, #bbb, #888);
+            color: yellow;
+        }
+        .navbar .home-link {
+            font-weight: bold;
+        }
+        h1 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 150%;
+        }
     </style>
     <script src="./libs/jquery.js"></script>
     <script src="./libs/bs/bootstrap.min.js"></script>
@@ -40,32 +59,38 @@
 <nav class="header navbar">
     <div class="container">
         <ul class="nav navbar-nav">
-            <li><a href="./index.html">Home</a></li>
+            <li><a href="./index.html" class="home-link">PyTanks</a></li>
             <li><a href="#" onclick="alert('Sorry, this is just a prototype!')">Login</a></li>
         </ul>
 </nav>
 
 <div class="container">
     <div id="upper-pane" class="row">
-        <div id="controls-pane" class="col-xs-8">
-            <span class="col-xs-2">
-                <button id="run-button" class="btn btn-default col-xs-12">Run</button>
-            </span>
-            <span class="col-xs-2">
-                <button id="reset-button" class="btn btn-default col-xs-12">Reset</button>
-            </span>
-            <span class="col-xs-3">
-                <select id="level-select" class="form-control">
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                    <option value="3">Level 3</option>
-                    <option value="4">Level 4</option>
-                    <option value="5">Level 5</option>
-                    <option value="6">Level 6</option>
-                    <option value="7">Level 7</option>
-                    <option value="8">Level 8</option>
-                </select>
-            </span>
+        <div id="info-pane" class="col-xs-8">
+            <div id="text-pane">
+                <h1>Python Tanks</h1>
+                <div id="statement-pane">Lorem Ipsum Dolorum</div>
+            </div>
+            <div id="controls-pane" class="spacing-before">
+                <span class="col-xs-2">
+                    <button id="run-button" class="btn btn-default col-xs-12">Run</button>
+                </span>
+                <span class="col-xs-2">
+                    <button id="reset-button" class="btn btn-default col-xs-12">Reset</button>
+                </span>
+                <span class="col-xs-3">
+                    <select id="level-select" class="form-control">
+                        <option value="1">Level 1</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                        <option value="4">Level 4</option>
+                        <option value="5">Level 5</option>
+                        <option value="6">Level 6</option>
+                        <option value="7">Level 7</option>
+                        <option value="8">Level 8</option>
+                    </select>
+                </span>
+            </div>
         </div>
         <div id="ads-pane" class="col-xs-4">
         </div>
