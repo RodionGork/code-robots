@@ -80,6 +80,7 @@ def pick():
     else:
         add_op(['pck'])
         stars += 1
+        field[tank.y][tank.x] = ''
 
 def place_stars(field, stars):
     for s in stars:
