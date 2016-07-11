@@ -7,7 +7,7 @@ ops = []
 def game_data():
     return window.gameData
 
-def done(operations, result):
+def done(operations):
     ops.clear()
     ops.extend(operations)
 
@@ -17,14 +17,17 @@ def _input():
 def _write_err(x):
     alert(x)
 
+def setup(write):
+    _sys.stdout.write = write
+
 def _time():
     Date = JSConstructor(window.Date)
     return Date().getTime()
 
 def runner(e):
     window.game.reset()
-    ns = {'__name__':'__main__', 'done':done, 'game_data':game_data, 'input':_input,
-        '_time':_time}
+    ns = {'__name__':'__main__', 'setup':setup, 'done':done, '_time':_time,
+        'game_data':game_data, 'input':_input}
     user_code = window.brEditor.getValue()
     code = window.initCode.replace('#user_code#', user_code)
     exec(code, ns)

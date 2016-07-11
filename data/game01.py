@@ -100,10 +100,9 @@ def init_game_data():
     tank = Tank(data.tank.x, data.tank.y)
 
 def init():
-    import _sys
     global time_start
+    setup(_write)
     init_game_data()
-    _sys.stdout.write = _write
     time_start = _time()
 
 init()
@@ -117,5 +116,5 @@ if result == 0:
         add_op(['end', 1])
         result = 1
 
-done(operations, result)
+done(operations)
 

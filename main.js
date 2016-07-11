@@ -5,7 +5,7 @@ $(function() {
     window.operations = [];
     brEditor = ace.edit('editor');
     brEditor.getSession().setMode("ace/mode/python");
-    window.initCode = loadFile('game01.py');
+    window.initCode = loadFile('data/game01.py');
     window.gameData = JSON.parse(loadFile('data/level' + level + '.json'));
     brEditor.setValue(loadFile('data/code' + level + '.py'));
     brEditor.moveCursorTo(0, 0, false);

@@ -1,5 +1,6 @@
 import sys
 import json
+import time
 
 ops = []
 
@@ -20,8 +21,15 @@ def done(operations):
     ops.clear()
     ops.extend(operations)
 
+def setup(write):
+    pass
+
+def _time():
+    return (int) (time.time() * 1000)
+    
 def runner():
-    ns = {'__name__':'__main__', 'done':done, 'game_data':game_data}
+    ns = {'__name__':'__main__', 'setup':setup, 'done':done, '_time':_time,
+        'game_data':game_data}
     init_code = read_file(sys.argv[1])
     user_code = read_file(sys.argv[2])
     code = init_code.replace('#user_code#', user_code)
