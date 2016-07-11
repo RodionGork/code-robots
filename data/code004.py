@@ -1,9 +1,7 @@
-#try to run this code by pressing 'Run' button
-
-#then add more 'forward()' commands
-#so that tank can reach the star
-#before executing 'pick()' command
+#tank did not reach the star with this code
+#add few commands to fix it!
 
 forward()
 forward()
 pick()
+

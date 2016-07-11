@@ -8,6 +8,7 @@ $(function() {
     window.initCode = loadFile('data/game01.py');
     window.gameData = JSON.parse(loadFile('data/level' + level + '.json'));
     $('h1').text($('h1').text() + ' - ' + window.gameData.title);
+    $('#statement-pane').html(loadFile('data/en/descr' + level + '.txt'));
     brEditor.setValue(loadFile('data/code' + level + '.py'));
     brEditor.moveCursorTo(0, 0, false);
     brEditor.selection.clearSelection();
@@ -19,9 +20,13 @@ $(function() {
     });
     
     $('#level-select').change(function() {
-        var href = location.href.replace(/^(.*)\?.*/, '$1');
-        location.href = href + '?level=' + $(this).val();
+        switchLevel($(this).val());
     });
+    
+    function switchLevel(level) {
+        var href = location.href.replace(/^(.*)\?.*/, '$1');
+        location.href = href + '?level=' + level;
+    }
     
     function loadFile(url) {
         return $.ajax(url, {async:false}).responseText;
@@ -36,6 +41,10 @@ $(function() {
         $('#level-select').val(v);
         var s = '00' + parseInt(m[1]);
         return s.substring(s.length - 3);
+    }
+    
+    window.nextLevel = function() {
+        switchLevel(window.gameData.next);
     }
     
 });

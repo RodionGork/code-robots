@@ -1,19 +1,18 @@
-#we can define our own functions
-#for example to enclose group of operations
-#which needs to be repeated several times
+#we define function with 'def' keyword
+#and put colon after parentheses
+#all commands inside should be shifted right with 4 spaces
 
-#see how we define function which
-#combines four movements
-#and then use it twice
-
-#now define your own function instead
-#to travel over all three stars
-
-def twoStepsAndTurn():
+def two_steps_and_turn():
     forward()
     forward()
-    right()
-    right()
+    left()
+    left()
 
-twoStepsAndTurn()
-twoStepsAndTurn()
+#now we can call this function, perhaps several times
+
+two_steps_and_turn()
+two_steps_and_turn()
+
+#modify function so that it reach the star
+#pick it and and turn right
+#then call it three times to collect all stars!

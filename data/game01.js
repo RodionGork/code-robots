@@ -9,9 +9,13 @@ $(function() {
             var pre = $('#output-pre');
             pre.text(pre.text() + op[1]);
         } else if (opcode == 'end') {
-            alert(op[1] == 1
-                ? 'Well done!\nYou\'ve completed this level!'
-                : 'Task not completed:\n' + op[2]);
+            if (op[1] == 1) {
+                if (confirm('Well done!\nYou\'ve completed this level!\n\nSwitch to next level?')) {
+                    nextLevel();
+                }
+            } else {
+                alert('Task not completed:\n' + op[2]);
+            }
             operations = [];
         } else {
             try {
